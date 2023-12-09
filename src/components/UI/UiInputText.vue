@@ -2,7 +2,7 @@
   <input
     type="text"
     class="input"
-    :value="value"
+    :value="somevalue"
     @input="updateInput"
   />
 </template>
@@ -11,11 +11,12 @@
 export default {
     name: 'ui-input-text',
     props: {
-      value: [String, Number]
+      value: [String, Number],
+      somevalue: [String]
     },
   methods: {
     updateInput(event) {
-      this.$emit('update:value', event.target.value)
+      this.$emit('update:somevalue', event.target.value)
     }
   }
 };
