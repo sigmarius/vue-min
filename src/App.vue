@@ -1,6 +1,8 @@
 <template>
   <div class="app">
-    <post-form/>
+    <post-form
+      @create="createPost"
+    />
     <post-list
       :posts="posts"
     />
@@ -15,8 +17,6 @@ export default {
   components: { PostList, PostForm },
   data() {
     return {
-      title: "",
-      description: "",
       posts: [
         {
           id: 1,
@@ -41,16 +41,11 @@ export default {
     };
   },
   methods: {
-    createPost() {
-      const newPost = {
-        id: Date.now(),
-        title: this.title,
-        description: this.description,
-      };
+    createPost(post, second, third) {
+      this.posts = [post, ...this.posts]
 
-      this.posts = [newPost, ...this.posts];
-      this.title = "";
-      this.description = "";
+      console.log('simple param', second);
+      console.log('simple param', third);
     },
   },
 };

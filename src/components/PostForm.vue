@@ -1,19 +1,17 @@
 <template>
   <form @submit.prevent>
-    <h1>Создание поста</h1>
+    <h2>Создание поста</h2>
     <input
       class="input"
       type="text"
       placeholder="Название"
-      :value="post.title"
-      @input="post.title = $event.target.value"
+      v-model="post.title"
     />
     <input
       class="input"
       type="text"
       placeholder="Описание"
-      :value="post.description"
-      @input="post.description = $event.target.value"
+      v-model="post.description"
     />
     <button class="btn" @click="createPost">Создать</button>
   </form>
@@ -24,14 +22,24 @@ export default {
   data() {
     return {
       post: {
-        title: '',
-        description: ''
+        title: "",
+        description: "",
+      },
+    };
+  },
+  methods: {
+    createPost() {
+      this.post.id = Date.now();
+      this.$emit('create', this.post, 'second param', 'another param')
+
+      this.post = {
+        title: "",
+        description: "",
       }
-    }
-  }
+    },
+  },
 };
 </script>
-
 
 <style scoped>
 form {
