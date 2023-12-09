@@ -1,40 +1,22 @@
 <template>
   <div class="app">
-    <form @submit.prevent>
-      <h1>Создание поста</h1>
-      <input
-        class="input"
-        type="text"
-        placeholder="Название"
-        :value="title"
-        @input="title = $event.target.value"
-      />
-      <input
-        class="input"
-        type="text"
-        placeholder="Описание"
-        :value="description"
-        @input="description = $event.target.value"
-      />
-      <button
-        class="btn"
-        @click="createPost">
-          Создать
-      </button>
-    </form>
-    <div class="post" v-for="post in posts">
-      <div><b>Название:</b> {{ post.title }}</div>
-      <div><b>Описание:</b> {{ post.description }}</div>
-    </div>
+    <post-form/>
+    <post-list
+      :posts="posts"
+    />
   </div>
 </template>
 
 <script>
+import PostForm from "@/components/PostForm.vue";
+import PostList from "@/components/PostList.vue";
+
 export default {
+  components: { PostList, PostForm },
   data() {
     return {
-      title: '',
-      description: '',
+      title: "",
+      description: "",
       posts: [
         {
           id: 1,
@@ -63,12 +45,12 @@ export default {
       const newPost = {
         id: Date.now(),
         title: this.title,
-        description: this.description
-      }
+        description: this.description,
+      };
 
       this.posts = [newPost, ...this.posts];
-      this.title = '';
-      this.description = '';
+      this.title = "";
+      this.description = "";
     },
   },
 };
@@ -83,35 +65,5 @@ export default {
 
 .app {
   padding: 20px;
-}
-
-.post {
-  margin-top: 15px;
-  padding: 15px;
-  border: 2px solid teal;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-.input {
-  width: 100%;
-  margin-top: 15px;
-  padding: 10px 15px;
-  border: 2px solid teal;
-  border-radius: 5px;
-}
-
-.btn {
-  margin-top: 15px;
-  padding: 10px 15px;
-  align-self: flex-end;
-  color: teal;
-  border: 1px solid teal;
-  border-radius: 5px;
-  background: none;
-  cursor: pointer;
 }
 </style>
