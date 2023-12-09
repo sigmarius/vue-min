@@ -3,7 +3,7 @@
     <h2>Создание поста</h2>
     <ui-input-text
       placeholder="Название"
-      v-model:somevalue="post.title"
+      v-model="post.title"
     />
     <ui-input-text
       placeholder="Описание"
