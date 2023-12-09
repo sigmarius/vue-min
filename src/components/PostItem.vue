@@ -1,12 +1,23 @@
 <template>
   <div class="post">
-    <div><b>Название:</b> {{ post.title }}</div>
-    <div><b>Описание:</b> {{ post.description }}</div>
+    <div>
+      <div><b>Название:</b> {{ post.title }}</div>
+      <div><b>Описание:</b> {{ post.description }}</div>
+    </div>
+
+    <div class="post__btns">
+      <ui-button>
+        Удалить
+      </ui-button>
+    </div>
   </div>
 </template>
 
 <script>
+import UiButton from "@/components/UI/UiButton.vue";
+
 export default {
+  components: { UiButton },
   props: {
     post: {
       type: Object,
@@ -20,6 +31,9 @@ export default {
 .post {
   margin-top: 15px;
   padding: 15px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   border: 2px solid teal;
 }
 </style>

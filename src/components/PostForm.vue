@@ -13,12 +13,20 @@
       placeholder="Описание"
       v-model="post.description"
     />
-    <button class="btn" @click="createPost">Создать</button>
+    <ui-button
+      class="btn--create"
+      @click="createPost"
+    >
+      Создать
+    </ui-button>
   </form>
 </template>
 
 <script>
+import UiButton from "@/components/UI/UiButton.vue";
+
 export default {
+  components: { UiButton },
   data() {
     return {
       post: {
@@ -30,12 +38,12 @@ export default {
   methods: {
     createPost() {
       this.post.id = Date.now();
-      this.$emit('create', this.post, 'second param', 'another param')
+      this.$emit("create", this.post, "second param", "another param");
 
       this.post = {
         title: "",
         description: "",
-      }
+      };
     },
   },
 };
@@ -55,14 +63,8 @@ form {
   border-radius: 5px;
 }
 
-.btn {
+.btn--create {
   margin-top: 15px;
-  padding: 10px 15px;
   align-self: flex-end;
-  color: teal;
-  border: 1px solid teal;
-  border-radius: 5px;
-  background: none;
-  cursor: pointer;
 }
 </style>
