@@ -14,10 +14,8 @@
 </template>
 
 <script>
-import UiButton from "@/components/UI/UiButton.vue";
 
 export default {
-  components: { UiButton },
   props: {
     post: {
       type: Object,
