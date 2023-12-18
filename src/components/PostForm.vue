@@ -29,7 +29,7 @@ export default {
   methods: {
     createPost() {
       this.post.id = Date.now();
-      this.$emit("create", this.post, "second param", "another param");
+      this.$emit("create", this.post);
 
       this.post = {
         title: "",

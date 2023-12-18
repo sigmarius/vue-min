@@ -1,21 +1,24 @@
 <template>
   <div class="app">
-    <post-form
-      @create="createPost"
-    />
-    <post-list
-      :posts="posts"
-      @remove="removePost"
-    />
+    <h1 class="mb-2">Страница с постами</h1>
+    <ui-button class="mb-2" @click="showModal">
+      Создать пост
+    </ui-button>
+    <ui-modal v-model:show="isModalShow">
+      <post-form @create="createPost" />
+    </ui-modal>
+    <post-list :posts="posts" @remove="removePost" />
   </div>
 </template>
 
 <script>
 import PostForm from "@/components/PostForm.vue";
 import PostList from "@/components/PostList.vue";
+import UiModal from "@/components/UI/UiModal.vue";
+import UiButton from "@/components/UI/UiButton.vue";
 
 export default {
-  components: { PostList, PostForm },
+  components: {UiButton, UiModal, PostList, PostForm },
   data() {
     return {
       posts: [
@@ -39,17 +42,19 @@ export default {
             "Каждый из нас понимает очевидную вещь: курс на социально-ориентированный национальный проект однозначно определяет каждого участника как способного принимать собственные решения касаемо экспериментов, поражающих по своей масштабности и грандиозности.",
         },
       ],
+      isModalShow: false,
     };
   },
   methods: {
-    createPost(post, second, third) {
-      this.posts = [post, ...this.posts]
-
-      console.log('simple param', second);
-      console.log('simple param', third);
+    createPost(post) {
+      this.posts = [post, ...this.posts];
+      this.isModalShow = false;
     },
     removePost(post) {
-      this.posts = this.posts.filter(p => p.id !== post.id)
+      this.posts = this.posts.filter((p) => p.id !== post.id);
+    },
+    showModal() {
+      this.isModalShow = true
     }
   },
 };
@@ -64,5 +69,9 @@ export default {
 
 .app {
   padding: 20px;
+}
+
+.mb-2 {
+  margin-bottom: 20px;
 }
 </style>
