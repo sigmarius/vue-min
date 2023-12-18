@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <h1 class="mb-2">Страница с постами</h1>
-    <input type="text" v-model.trim="modificatorValue">
+    <input type="text" v-model.number="modificatorValue">
     <ui-button class="mb-2" @click="showModal">
       Создать пост
     </ui-button>
