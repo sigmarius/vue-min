@@ -5,6 +5,7 @@
     />
     <post-list
       :posts="posts"
+      @remove="removePost"
     />
   </div>
 </template>
@@ -47,6 +48,9 @@ export default {
       console.log('simple param', second);
       console.log('simple param', third);
     },
+    removePost(post) {
+      this.posts = this.posts.filter(p => p.id !== post.id)
+    }
   },
 };
 </script>

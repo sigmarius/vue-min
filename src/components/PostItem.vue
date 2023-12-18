@@ -6,7 +6,9 @@
     </div>
 
     <div class="post__btns">
-      <ui-button>
+      <ui-button
+        @click="$emit('remove', post)"
+      >
         Удалить
       </ui-button>
     </div>
