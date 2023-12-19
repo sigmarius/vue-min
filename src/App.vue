@@ -2,9 +2,7 @@
   <div class="app">
     <h1 class="mb-2">Страница с постами</h1>
     <ui-button @click="fetchPosts">Получить посты</ui-button>
-    <ui-button class="mb-2" @click="showModal">
-      Создать пост
-    </ui-button>
+    <ui-button class="mb-2" @click="showModal"> Создать пост </ui-button>
     <ui-modal v-model:show="isModalShow">
       <post-form @create="createPost" />
     </ui-modal>
@@ -13,28 +11,30 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from "axios";
 import PostForm from "@/components/PostForm.vue";
 import PostList from "@/components/PostList.vue";
 import UiModal from "@/components/UI/UiModal.vue";
 import UiButton from "@/components/UI/UiButton.vue";
 
 export default {
-  components: {UiButton, UiModal, PostList, PostForm },
+  components: { UiButton, UiModal, PostList, PostForm },
   data() {
     return {
       posts: [],
       isModalShow: false,
-      modificatorValue: ''
+      modificatorValue: "",
     };
   },
   methods: {
     async fetchPosts() {
       try {
-        const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10');
+        const response = await axios.get(
+          "https://jsonplaceholder.typicode.com/posts?_limit=10",
+        );
         this.posts = response.data;
       } catch (e) {
-          alert('Ошибка ' + e)
+        alert("Ошибка " + e);
       }
     },
     createPost(post) {
@@ -45,8 +45,11 @@ export default {
       this.posts = this.posts.filter((p) => p.id !== post.id);
     },
     showModal() {
-      this.isModalShow = true
-    }
+      this.isModalShow = true;
+    },
+  },
+  mounted() {
+    this.fetchPosts();
   },
 };
 </script>
