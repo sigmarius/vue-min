@@ -33,6 +33,7 @@ export default {
       sortOptions: [
         {value: "title", name: "По названию"},
         {value: "body", name: "По описанию"},
+        {value: "id", name: "По id"},
       ],
     };
   },
@@ -68,7 +69,12 @@ export default {
   watch: {
 //    функция-наблюдатель имеет такое же название, как и модель, за которой она смотрит
     selectedSort(newValue) {
-        console.log('new Value', newValue);
+//      также можно использовать передаваемое newValue
+//      в данном случае функция sort() мутирует исходный массив
+      newValue === 'id'
+      ? this.posts.sort((post1, post2) => post1[this.selectedSort] - post2[this.selectedSort])
+      : this.posts.sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]));
+//      this.posts.sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
     },
   }
 };
