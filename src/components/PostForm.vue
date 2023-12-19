@@ -7,7 +7,7 @@
     />
     <ui-input-text
       placeholder="Описание"
-      v-model="post.description"
+      v-model="post.body"
     />
     <ui-button class="btn--create" @click="createPost"> Создать </ui-button>
   </form>
@@ -33,7 +33,7 @@ export default {
 
       this.post = {
         title: "",
-        description: "",
+        body: "",
       };
     },
   },

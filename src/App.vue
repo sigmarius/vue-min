@@ -1,7 +1,7 @@
 <template>
   <div class="app">
     <h1 class="mb-2">Страница с постами</h1>
-    <input type="text" v-model.number="modificatorValue">
+    <ui-button @click="fetchPosts">Получить посты</ui-button>
     <ui-button class="mb-2" @click="showModal">
       Создать пост
     </ui-button>
@@ -13,6 +13,7 @@
 </template>
 
 <script>
+import axios from 'axios';
 import PostForm from "@/components/PostForm.vue";
 import PostList from "@/components/PostList.vue";
 import UiModal from "@/components/UI/UiModal.vue";
@@ -22,32 +23,20 @@ export default {
   components: {UiButton, UiModal, PostList, PostForm },
   data() {
     return {
-      posts: [
-        {
-          id: 1,
-          title: "Коронованный герцог графства не позволил союзу развалиться",
-          description:
-            "Банальные, но неопровержимые выводы, а также сделанные на базе интернет-аналитики выводы и по сей день остаются уделом либералов, которые жаждут быть функционально разнесены на независимые элементы.",
-        },
-        {
-          id: 2,
-          title:
-            "Логотип крупнейшей компании по производству мыльных пузырей оправдал надежды граждан",
-          description:
-            "Противоположная точка зрения подразумевает, что интерактивные прототипы представляют собой не что иное, как квинтэссенцию победы маркетинга над разумом и должны быть ограничены исключительно образом мышления.",
-        },
-        {
-          id: 3,
-          title: "Коронованный герцог графства продолжает удивлять",
-          description:
-            "Каждый из нас понимает очевидную вещь: курс на социально-ориентированный национальный проект однозначно определяет каждого участника как способного принимать собственные решения касаемо экспериментов, поражающих по своей масштабности и грандиозности.",
-        },
-      ],
+      posts: [],
       isModalShow: false,
       modificatorValue: ''
     };
   },
   methods: {
+    async fetchPosts() {
+      try {
+        const response = await axios.get('https://jsonplaceholder.typicode.com/posts?_limit=10');
+        this.posts = response.data;
+      } catch (e) {
+          alert('Ошибка ' + e)
+      }
+    },
     createPost(post) {
       this.posts = [post, ...this.posts];
       this.isModalShow = false;
