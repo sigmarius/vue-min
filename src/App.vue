@@ -35,15 +35,15 @@ export default {
     async fetchPosts() {
       try {
         this.isPostsLoading = true;
-        setTimeout(async () => {
           const response = await axios.get(
             "https://jsonplaceholder.typicode.com/posts?_limit=10",
             );
           this.posts = response.data;
           this.isPostsLoading = false;
-        }, 1000);
       } catch (e) {
         alert("Ошибка " + e);
+      } finally {
+        this.isPostsLoading = false;
       }
     },
     createPost(post) {
