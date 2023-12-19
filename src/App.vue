@@ -9,7 +9,12 @@
     <ui-modal v-model:show="isModalShow">
       <post-form @create="createPost" />
     </ui-modal>
-    <post-list :posts="posts" @remove="removePost" v-if="!isPostsLoading" />
+    <!-- computed свойство подставляется в модель :posts -->
+    <post-list
+      :posts="sortedPosts"
+      @remove="removePost"
+      v-if="!isPostsLoading"
+    />
     <div v-else>Идет загрузка...</div>
   </div>
 </template>
@@ -62,9 +67,24 @@ export default {
     showModal() {
       this.isModalShow = true;
     },
+    compareString(post1, post2) {
+      return post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]);
+    },
+    compareNumeric(post1, post2) {
+      return post1[this.selectedSort] - post2[this.selectedSort];
+    },
   },
   mounted() {
     this.fetchPosts();
+  },
+  computed: {
+//    название функции может быть любым
+    sortedPosts() {
+//      исходный массив мутироваться не будет
+      return this.selectedSort === 'id'
+      ? [...this.posts].sort(this.compareNumeric)
+      : [...this.posts].sort(this.compareString)
+    }
   },
   watch: {
 //    функция-наблюдатель имеет такое же название, как и модель, за которой она смотрит
@@ -72,9 +92,8 @@ export default {
 //      также можно использовать передаваемое newValue
 //      в данном случае функция sort() мутирует исходный массив
       newValue === 'id'
-      ? this.posts.sort((post1, post2) => post1[this.selectedSort] - post2[this.selectedSort])
-      : this.posts.sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]));
-//      this.posts.sort((post1, post2) => post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]))
+      ? this.posts.sort(this.compareNumeric)
+      : this.posts.sort(this.compareString);
     },
   }
 };
