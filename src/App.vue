@@ -65,6 +65,12 @@ export default {
   mounted() {
     this.fetchPosts();
   },
+  watch: {
+//    функция-наблюдатель имеет такое же название, как и модель, за которой она смотрит
+    selectedSort(newValue) {
+        console.log('new Value', newValue);
+    },
+  }
 };
 </script>
 

@@ -37,6 +37,15 @@ export default {
       };
     },
   },
+//  глубокое отслеживание событий в объекте
+  watch: {
+    post: {
+      handler(newValue) {
+        console.log('post', newValue);
+      },
+      deep: true
+    }
+  }
 };
 </script>
 
