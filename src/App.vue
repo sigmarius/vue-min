@@ -21,6 +21,15 @@
       v-if="!isPostsLoading"
     />
     <div v-else>Идет загрузка...</div>
+    <ul class="page__wrapper">
+      <li
+        v-for="page in totalPages"
+        :key="page"
+        class="page"
+      >
+          {{ page }}
+      </li>
+    </ul>
   </div>
 </template>
 
@@ -42,6 +51,9 @@ export default {
       isPostsLoading: false,
       selectedSort: "",
       searchQuery: "",
+      page: 1,
+      limit: 10,
+      totalPages: 0,
       sortOptions: [
         {value: "title", name: "По названию"},
         {value: "body", name: "По описанию"},
@@ -54,8 +66,17 @@ export default {
       try {
         this.isPostsLoading = true;
         const response = await axios.get(
-          "https://jsonplaceholder.typicode.com/posts?_limit=10",
+          "https://jsonplaceholder.typicode.com/posts",
+          {params: {
+            _page: this.page,
+            _limit: this.limit
+          }}
         );
+//       общее количество предоставляемых ресурсом постов отображается на вкладке Network -> Headers в браузере
+        this.totalPages = Math.ceil(
+          response.headers['x-total-count'] / this.limit
+        ); // 101 post / 10 limit => 11 pages
+        console.log('total', this.totalPages);
         this.posts = response.data;
         this.isPostsLoading = false;
       } catch (e) {
@@ -130,5 +151,24 @@ export default {
 
 .mb-2 {
   margin-bottom: 20px;
+}
+
+.page__wrapper {
+  margin: 0;
+  padding: 0;
+  display: flex;
+  gap: 10px;
+  list-style-type: none;
+}
+
+.page {
+  padding: 10px;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.current-page {
+  border: 2px solid teal;
 }
 </style>

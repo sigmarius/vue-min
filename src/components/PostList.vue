@@ -1,5 +1,5 @@
 <template>
-  <div v-if="posts.length">
+  <div class="posts" v-if="posts.length">
     <h2>Список постов</h2>
     <transition-group name="post-list">
       <post-item
@@ -30,6 +30,10 @@ export default {
 <style scoped>
   .no-posts {
     color: red;
+  }
+
+  .posts {
+    margin-bottom: 20px;
   }
 
 /*  стили для <transition-group name="post-list"> */
