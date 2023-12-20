@@ -1,6 +1,11 @@
 <template>
   <div class="app">
     <h1 class="mb-2">Страница с постами</h1>
+    <ui-input-text
+      v-model="searchQuery"
+      placeholder="Поиск..."
+      class="mb-2"
+    />
     <div class="app__buttons mb-2">
       <ui-button @click="showModal"> Создать пост</ui-button>
       <ui-select v-model="selectedSort" :options="sortOptions" />
@@ -11,7 +16,7 @@
     </ui-modal>
     <!-- computed свойство подставляется в модель :posts -->
     <post-list
-      :posts="sortedPosts"
+      :posts="sortedAndSearchedPosts"
       @remove="removePost"
       v-if="!isPostsLoading"
     />
@@ -26,15 +31,17 @@ import PostList from "@/components/PostList.vue";
 import UiModal from "@/components/UI/UiModal.vue";
 import UiButton from "@/components/UI/UiButton.vue";
 import UiSelect from "@/components/UI/UiSelect.vue";
+import UiInputText from "@/components/UI/UiInputText.vue";
 
 export default {
-  components: { UiSelect, UiButton, UiModal, PostList, PostForm },
+  components: {UiInputText, UiSelect, UiButton, UiModal, PostList, PostForm },
   data() {
     return {
       posts: [],
       isModalShow: false,
       isPostsLoading: false,
       selectedSort: "",
+      searchQuery: "",
       sortOptions: [
         {value: "title", name: "По названию"},
         {value: "body", name: "По описанию"},
@@ -84,6 +91,12 @@ export default {
       return this.selectedSort === 'id'
       ? [...this.posts].sort(this.compareNumeric)
       : [...this.posts].sort(this.compareString)
+    },
+    sortedAndSearchedPosts() {
+      return this.sortedPosts.filter(
+        post => post.title.toLowerCase()
+              .includes(this.searchQuery.toLowerCase())
+      );
     }
   },
 //  watch: {
