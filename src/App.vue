@@ -101,7 +101,6 @@ export default {
     },
     changePage(pageNumber) {
       this.page = pageNumber;
-      this.fetchPosts();
     },
     compareString(post1, post2) {
       return post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]);
@@ -128,16 +127,12 @@ export default {
       );
     }
   },
-//  watch: {
-////    функция-наблюдатель имеет такое же название, как и модель, за которой она смотрит
-//    selectedSort(newValue) {
-////      также можно использовать передаваемое newValue
-////      в данном случае функция sort() мутирует исходный массив
-//      newValue === 'id'
-//      ? this.posts.sort(this.compareNumeric)
-//      : this.posts.sort(this.compareString);
-//    },
-//  }
+  watch: {
+//    функция-наблюдатель имеет такое же название, как и модель, за которой она смотрит
+    page() {
+      this.fetchPosts();
+    },
+  }
 };
 </script>
 
