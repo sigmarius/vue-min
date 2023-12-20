@@ -21,19 +21,7 @@
       v-if="!isPostsLoading"
     />
     <div class="mb-2" v-else>Идет загрузка...</div>
-    <ul class="page__wrapper">
-      <li
-        v-for="pageNumber in totalPages"
-        :key="pageNumber"
-        class="page"
-        :class="{
-          'current-page': pageNumber === page
-        }"
-        @click="changePage(pageNumber)"
-      >
-          {{ pageNumber }}
-      </li>
-    </ul>
+    <div ref="observer" class="observer"></div>
   </div>
 </template>
 
@@ -80,13 +68,32 @@ export default {
         this.totalPages = Math.ceil(
           response.headers['x-total-count'] / this.limit
         ); // 101 post / 10 limit => 11 pages
-        console.log('total', this.totalPages);
         this.posts = response.data;
         this.isPostsLoading = false;
       } catch (e) {
         alert("Ошибка " + e);
       } finally {
         this.isPostsLoading = false;
+      }
+    },
+    async loadMorePosts() {
+      try {
+        this.page += 1;
+        const response = await axios.get(
+          "https://jsonplaceholder.typicode.com/posts",
+          {params: {
+            _page: this.page,
+            _limit: this.limit
+          }}
+        );
+        //       общее количество предоставляемых ресурсом постов отображается на вкладке Network -> Headers в браузере
+        this.totalPages = Math.ceil(
+          response.headers['x-total-count'] / this.limit
+        ); // 101 post / 10 limit => 11 pages
+        this.posts = [...this.posts, ...response.data];
+        this.isPostsLoading = false;
+      } catch (e) {
+        alert("Ошибка " + e);
       }
     },
     createPost(post) {
@@ -99,9 +106,6 @@ export default {
     showModal() {
       this.isModalShow = true;
     },
-    changePage(pageNumber) {
-      this.page = pageNumber;
-    },
     compareString(post1, post2) {
       return post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]);
     },
@@ -111,6 +115,24 @@ export default {
   },
   mounted() {
     this.fetchPosts();
+
+//    начинаем следить, долистал ли пользователь до конца
+    const options = {
+      rootMargin: "0px",
+      threshold: 1.0,
+    };
+    const callback = (entries, observer) => {
+      if (
+      entries[0].isIntersecting
+      && this.page < this.totalPages
+      ) {
+        this.loadMorePosts();
+      }
+    };
+
+    const observer = new IntersectionObserver(callback, options);
+//    this.$refs получает dom элемент
+    observer.observe(this.$refs.observer);
   },
   computed: {
 //    название функции может быть любым
@@ -129,9 +151,6 @@ export default {
   },
   watch: {
 //    функция-наблюдатель имеет такое же название, как и модель, за которой она смотрит
-    page() {
-      this.fetchPosts();
-    },
   }
 };
 </script>
