@@ -20,14 +20,18 @@
       @remove="removePost"
       v-if="!isPostsLoading"
     />
-    <div v-else>Идет загрузка...</div>
+    <div class="mb-2" v-else>Идет загрузка...</div>
     <ul class="page__wrapper">
       <li
-        v-for="page in totalPages"
-        :key="page"
+        v-for="pageNumber in totalPages"
+        :key="pageNumber"
         class="page"
+        :class="{
+          'current-page': pageNumber === page
+        }"
+        @click="changePage(pageNumber)"
       >
-          {{ page }}
+          {{ pageNumber }}
       </li>
     </ul>
   </div>
@@ -94,6 +98,10 @@ export default {
     },
     showModal() {
       this.isModalShow = true;
+    },
+    changePage(pageNumber) {
+      this.page = pageNumber;
+      this.fetchPosts();
     },
     compareString(post1, post2) {
       return post1[this.selectedSort]?.localeCompare(post2[this.selectedSort]);

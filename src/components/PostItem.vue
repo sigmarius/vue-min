@@ -1,6 +1,7 @@
 <template>
   <div class="post" :data-id="post.id">
     <div>
+      <div><b>id:</b> {{ post.id }}</div>
       <div><b>Название:</b> {{ post.title }}</div>
       <div><b>Описание:</b> {{ post.body }}</div>
     </div>
