@@ -8,6 +8,11 @@
 
     <div class="post__btns">
       <ui-button
+          @click="$router.push(`/posts/${post.id}`)"
+        >
+          Открыть
+        </ui-button>
+      <ui-button
         @click="$emit('remove', post)"
       >
         Удалить
@@ -36,5 +41,9 @@ export default {
   justify-content: space-between;
   align-items: center;
   border: 2px solid teal;
+}
+.post__btns {
+  display: flex;
+  gap: 5px;
 }
 </style>
