@@ -3,6 +3,7 @@
     <div class="navbar__logo" @click="$router.push('/')">Mini Vue3</div>
     <div class="navbar__btns">
       <ui-button @click="$router.push('/posts')">Posts</ui-button>
+      <ui-button @click="$router.push('/store')">Store Posts</ui-button>
       <ui-button @click="$router.push('/about')">About</ui-button>
     </div>
   </div>
