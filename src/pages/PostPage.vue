@@ -5,6 +5,7 @@
       v-model="searchQuery"
       placeholder="Поиск..."
       class="mb-2"
+      v-focus
     />
     <div class="app__buttons mb-2">
       <ui-button @click="showModal"> Создать пост</ui-button>
@@ -21,7 +22,7 @@
       v-if="!isPostsLoading"
     />
     <div class="mb-2" v-else>Идет загрузка...</div>
-    <div ref="observer" class="observer"></div>
+    <div v-intersection="loadMorePosts" class="observer"></div>
   </div>
 </template>
 
@@ -115,24 +116,6 @@ export default {
     },
     mounted() {
         this.fetchPosts();
-
-        //    начинаем следить, долистал ли пользователь до конца
-        const options = {
-            rootMargin: "0px",
-            threshold: 1.0,
-        };
-        const callback = (entries, observer) => {
-            if (
-      entries[0].isIntersecting
-      && this.page < this.totalPages
-      ) {
-                this.loadMorePosts();
-            }
-        };
-
-        const observer = new IntersectionObserver(callback, options);
-        //    this.$refs получает dom элемент
-        observer.observe(this.$refs.observer);
     },
     computed: {
         //    название функции может быть любым

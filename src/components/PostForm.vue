@@ -4,6 +4,7 @@
     <ui-input-text
       placeholder="Название"
       v-model="post.title"
+      v-focus
     />
     <ui-input-text
       placeholder="Описание"
