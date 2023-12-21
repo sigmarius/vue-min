@@ -4,6 +4,7 @@
     <div class="navbar__btns">
       <ui-button @click="$router.push('/posts')">Posts</ui-button>
       <ui-button @click="$router.push('/store')">Store Posts</ui-button>
+      <ui-button @click="$router.push('/composition')">Composition Posts</ui-button>
       <ui-button @click="$router.push('/about')">About</ui-button>
     </div>
   </div>

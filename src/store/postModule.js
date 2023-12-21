@@ -17,7 +17,7 @@ export const postModule = {
   }),
   getters: {
     //        computed свойства
-    sortedPosts(state, getters) {
+    sortedPosts(state) {
       return state.selectedSort === "id"
         ? [...state.posts].sort(
             (post1, post2) =>

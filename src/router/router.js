@@ -4,6 +4,7 @@ import MainPage from "@/pages/MainPage.vue";
 import AboutPage from "@/pages/AboutPage.vue";
 import SinglePostPage from "@/pages/SinglePostPage.vue";
 import PostPageWithStore from "@/pages/PostPageWithStore.vue";
+import PostPageCompositionApi from "@/pages/PostPageCompositionApi.vue";
 
 const routes = [
     {
@@ -25,6 +26,10 @@ const routes = [
     {
         path: '/store',
         component: PostPageWithStore
+    },
+    {
+        path: '/composition',
+        component: PostPageCompositionApi
     }
 ];
 
